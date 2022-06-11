@@ -28,7 +28,8 @@ const recordCount = 1000;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 function App() {
-  const [userFavorites, setUserFavorites] = useState<Array<UserFavorite>>([]);
+  const [userFavorites, setUserFavorites] =
+    useState<Array<UserFavorite> | null>(null);
 
   useEffect(() => {
     supabase
@@ -40,7 +41,7 @@ function App() {
       .then(({ data, error }) => setUserFavorites(data));
   }, []);
 
-  return userFavorites.length ? (
+  return userFavorites ? (
     <div className="ma1">
       <h2 className="mv2">Favorite Things</h2>
       <h3 className="mv2">record count: {recordCount}</h3>
