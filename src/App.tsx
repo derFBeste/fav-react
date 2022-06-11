@@ -43,7 +43,7 @@ function App() {
 
   return userFavorites ? (
     <div className="ma1">
-      <h2 className="mv2">Favorite Things</h2>
+      <h2 className="mv2">Favorite Things: React.js</h2>
       <h3 className="mv2">record count: {recordCount}</h3>
       <table className="f6 w-100" cellSpacing="0">
         <thead>
