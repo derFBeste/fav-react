@@ -23,9 +23,16 @@ type UserFavorite = {
 // TODO: make query param
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
-const recordCount = 1000;
-
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const {
+  location: { search },
+} = window;
+
+const defaultRecordCount = 1000;
+// If there is a record count specified in the URL, use that.
+// If not, use the default record count.
+const upperLimit = search ? search.split("=")[1] : defaultRecordCount;
 
 function App() {
   const [userFavorites, setUserFavorites] =
@@ -37,14 +44,14 @@ function App() {
       .select(
         "id, name, email, team, animal, musicGenre, song, book, color, movie, drink, food, number, superHero"
       )
-      .range(0, Number(recordCount))
+      .range(0, Number(upperLimit) - 1)
       .then(({ data, error }) => setUserFavorites(data));
   }, []);
 
   return userFavorites ? (
     <div className="ma1">
       <h2 className="mv2">Favorite Things: React.js</h2>
-      <h3 className="mv2">record count: {recordCount}</h3>
+      <h3 className="mv2">record count: {userFavorites.length}</h3>
       <table className="f6 w-100" cellSpacing="0">
         <thead>
           <tr>
