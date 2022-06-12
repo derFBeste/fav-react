@@ -1,6 +1,6 @@
 import "./App.css";
 import "tachyons";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { matchSorter } from "match-sorter";
 
@@ -21,7 +21,6 @@ type UserFavorite = {
   superHero: string;
 };
 
-// TODO: make query param
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -43,7 +42,7 @@ function App() {
 
   const [selectedUser, setSelectedUser] = useState<UserFavorite | null>(null);
 
-  useEffect(() => {
+  const fetchRecords = useCallback(() => {
     supabase
       .from("user-favorites")
       .select(
@@ -54,20 +53,35 @@ function App() {
         setUserFavorites(data);
         setOriginalRecords(data);
       });
-  }, []);
+  }, [upperLimit]);
+
+  useEffect(() => {
+    fetchRecords();
+    // supabase
+    //   .from("user-favorites")
+    //   .select(
+    //     "id, name, email, team, animal, musicGenre, song, book, color, movie, drink, food, number, superHero"
+    //   )
+    //   .range(0, Number(upperLimit) - 1)
+    //   .then(({ data, error }) => {
+    //     setUserFavorites(data);
+    //     setOriginalRecords(data);
+    //   });
+  }, [upperLimit]);
 
   function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
     const { value } = e.target;
-    const filteredRecords =
-      value && userFavorites
-        ? matchSorter(userFavorites, value, {
-            keys: Object.keys(userFavorites[0]),
-          })
-        : originalRecords;
 
-    // items.filter(item => item.toLowerCase().includes(inputValue.toLowerCase()))
-
-    setUserFavorites(filteredRecords);
+    if (value && userFavorites) {
+      setUserFavorites(
+        matchSorter(userFavorites, value, {
+          keys: Object.keys(userFavorites[0]),
+          threshold: matchSorter.rankings.WORD_STARTS_WITH,
+        })
+      );
+    } else {
+      fetchRecords();
+    }
   }
 
   function handleSort(colName: string) {
@@ -91,7 +105,7 @@ function App() {
           className="h2"
           type="text"
           placeholder="search"
-          onChange={handleFilter}
+          onInput={handleFilter}
         />
       </div>
       <table className="f6 w-100" cellSpacing="0">
