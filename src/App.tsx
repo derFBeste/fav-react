@@ -37,8 +37,6 @@ const upperLimit = search ? search.split("=")[1] : defaultRecordCount;
 function App() {
   const [userFavorites, setUserFavorites] =
     useState<Array<UserFavorite> | null>(null);
-  const [originalRecords, setOriginalRecords] =
-    useState<Array<UserFavorite> | null>(null);
 
   const [selectedUser, setSelectedUser] = useState<UserFavorite | null>(null);
 
@@ -51,22 +49,11 @@ function App() {
       .range(0, Number(upperLimit) - 1)
       .then(({ data, error }) => {
         setUserFavorites(data);
-        setOriginalRecords(data);
       });
   }, [upperLimit]);
 
   useEffect(() => {
     fetchRecords();
-    // supabase
-    //   .from("user-favorites")
-    //   .select(
-    //     "id, name, email, team, animal, musicGenre, song, book, color, movie, drink, food, number, superHero"
-    //   )
-    //   .range(0, Number(upperLimit) - 1)
-    //   .then(({ data, error }) => {
-    //     setUserFavorites(data);
-    //     setOriginalRecords(data);
-    //   });
   }, [upperLimit]);
 
   function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
