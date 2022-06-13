@@ -84,16 +84,6 @@ function App() {
     }
   }
 
-  function handleSort(colName: string) {
-    const results = originalRecords?.sort((a, b) =>
-      a.animal > b.animal ? 1 : -1
-    );
-    console.log(results);
-    if (results) {
-      setUserFavorites(results);
-    }
-  }
-
   return userFavorites ? (
     <div className="ma1">
       <div className="flex flex-row justify-between">
@@ -112,11 +102,7 @@ function App() {
         <thead>
           <tr>
             {Object.keys(userFavorites[0]).map((colName) => (
-              <th
-                className="fw6 tl pa1 pointer bb black--90"
-                key={colName}
-                onClick={() => handleSort(colName)}
-              >
+              <th className="fw6 tl pa1 pointer bb black--90" key={colName}>
                 {colName}
               </th>
             ))}
@@ -127,7 +113,9 @@ function App() {
             <tr
               key={`${userInfo.id}`}
               onClick={() => setSelectedUser(userInfo)}
-              className="pointer dim"
+              className={`pointer dim ${
+                selectedUser?.id === userInfo.id ? "bg-lightest-blue" : ""
+              }`}
             >
               {Object.values(userInfo).map((value) => (
                 <td
