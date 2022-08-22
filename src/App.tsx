@@ -39,6 +39,7 @@ function App() {
     useState<Array<UserFavorite> | null>(null);
 
   const [selectedUser, setSelectedUser] = useState<UserFavorite | null>(null);
+  console.log("render");
 
   const fetchRecords = useCallback(() => {
     supabase
@@ -115,7 +116,6 @@ function App() {
             </tr>
           ))}
         </tbody>
-        <tbody></tbody>
       </table>
     </div>
   ) : (
