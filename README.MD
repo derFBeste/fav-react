@@ -22,6 +22,7 @@ To load more or less records use the query parameter. For example loading 5000 r
 ## tech stack
 - [React](https://reactjs.org/)
 - [Vercel](https://vercel.com/)
+- [Vite](https://vitejs.dev/guide/)
 - [Supabase](https://supabase.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Tachyons](https://tachyons.io/)
