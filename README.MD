@@ -13,6 +13,12 @@ It was also built to try out [Vercel](https://vercel.com/). Live versions of the
 
 `npm run dev`
 
+## loading data
+
+The url takes one query parameter `recordCount` to update the amount of records that are loaded. By default it loads 1000.
+
+To load more or less records use the query parameter. For example loading 5000 records would be: `https://fav-react.vercel.app/?recordCount=5000`
+
 ## tech stack
 - [React](https://reactjs.org/)
 - [Vercel](https://vercel.com/)
